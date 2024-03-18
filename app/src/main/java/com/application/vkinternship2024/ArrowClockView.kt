@@ -63,14 +63,14 @@ class ArrowClockView @JvmOverloads constructor(
         override fun run() {
             time = Calendar.getInstance() // Update the current time
             invalidate() // Redraw the view
-            handler.postDelayed(this, 1000) // Schedule the next update in 1 second
+            handler.postDelayed(this, 10) // Schedule the next update in 1 second
         }
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawClockHands(canvas)
         drawClockFace(canvas)
+        drawClockHands(canvas)
     }
 
     private fun drawClockHands(canvas: Canvas) {
@@ -81,10 +81,11 @@ class ArrowClockView @JvmOverloads constructor(
         val hour = time.get(Calendar.HOUR_OF_DAY) % 12
         val minute = time.get(Calendar.MINUTE)
         val second = time.get(Calendar.SECOND)
+        val millisecond = time.get(Calendar.MILLISECOND)
 
         // Draw hour hand
         val hourAngle = Math.toRadians((hour + minute / 60.0) * 30 - 90).toFloat()
-        val hourHandLength = radius * 0.52
+        val hourHandLength = radius * 0.56
         canvas.drawLine(centerX, centerY,
             (centerX + hourHandLength * cos(hourAngle.toDouble()).toFloat()).toFloat(),
             (centerY + hourHandLength * sin(hourAngle.toDouble()).toFloat()).toFloat(),
@@ -93,7 +94,7 @@ class ArrowClockView @JvmOverloads constructor(
 
         // Draw minute hand
         val minuteAngle = Math.toRadians((minute + second / 60.0) * 6 - 90).toFloat()
-        val minuteHandLength = radius * 0.76
+        val minuteHandLength = radius * 0.72
         canvas.drawLine(centerX, centerY,
             (centerX + minuteHandLength * cos(minuteAngle.toDouble()).toFloat()).toFloat(),
             (centerY + minuteHandLength * sin(minuteAngle.toDouble()).toFloat()).toFloat(),
@@ -101,13 +102,16 @@ class ArrowClockView @JvmOverloads constructor(
         )
 
         // Draw second hand
-        val secondAngle = Math.toRadians((second * 6 - 90).toDouble()).toFloat()
-        val secondHandLength = radius * 0.94
+        val secondAngle = Math.toRadians(((second + millisecond.toDouble() / 1000) * 6 - 90)).toFloat()
+        val secondHandLength = radius * 0.92
         canvas.drawLine(centerX, centerY,
             (centerX + secondHandLength * cos(secondAngle)).toFloat(),
             (centerY + secondHandLength * sin(secondAngle)).toFloat(),
             secondPaint
         )
+
+        val centerDotRadius = 6
+        canvas.drawCircle(centerX, centerY, centerDotRadius.toFloat(), outerCirclePaint)
     }
 
     private fun drawClockFace(canvas: Canvas) {
@@ -136,18 +140,18 @@ class ArrowClockView @JvmOverloads constructor(
 
             val xPaddings = listOf<Double>(
                 -1.0,
-                textWidth.toDouble() * .5 * (3 / 3), textWidth.toDouble() * .5 * (5 / 3), textWidth.toDouble() * .5 * (6 / 3),
-                textWidth.toDouble() * .5 * (5 / 3), textWidth.toDouble() * .5 * (3 / 3), 0.0,
-                -textWidth.toDouble() * .5 * (3 / 3), -textWidth.toDouble() * .5 * (5 / 3), -textWidth.toDouble() * .5 * (6 / 3),
-                -textWidth.toDouble() * .5 * (5 / 3), -textWidth.toDouble() * .5 * (3 / 3), 0.0
+                textWidth.toDouble() * .5 * (4.0 / 3), textWidth.toDouble() * .5 * (5.0 / 3), textWidth.toDouble() * .5 * (6.0 / 3),
+                textWidth.toDouble() * .5 * (5.0 / 3), textWidth.toDouble() * .5 * (4.0 / 3), 0.0,
+                -textWidth.toDouble() * .5 * (4.0 / 3), -textWidth.toDouble() * .5 * (5.0 / 3), -textWidth.toDouble() * .5 * (6.0 / 3),
+                -textWidth.toDouble() * .5 * (5.0 / 3), -textWidth.toDouble() * .5 * (4.0 / 3), 0.0
             )
 
             val yPaddings = listOf<Double>(
                 -1.0,
-                -textHeight.toDouble() * .5 * (8 / 3), -textHeight.toDouble() * .5 * (7 / 3), -textHeight.toDouble() * .5 * (3 / 3),
-                -textHeight.toDouble() * .5 * (2 / 3), -textHeight.toDouble() * .5 * (1 / 3), 0.0,
-                -textHeight.toDouble() * .5 * (1 / 3), -textHeight.toDouble() * .5 * (2 / 3), -textHeight.toDouble() * .5 * (3 / 3),
-                -textHeight.toDouble() * .5 * (7 / 3), -textHeight.toDouble() * .5 * (8 / 3), -textHeight.toDouble() * .5 * (6 / 3)
+                -textHeight.toDouble() * .5 * (5.0 / 3), -textHeight.toDouble() * .5 * (4.0 / 3), -textHeight.toDouble() * .5 * (3.0 / 3),
+                -textHeight.toDouble() * .5 * (2.0 / 3), -textHeight.toDouble() * .5 * (1.0 / 3), 0.0,
+                -textHeight.toDouble() * .5 * (1.0 / 3), -textHeight.toDouble() * .5 * (2.0 / 3), -textHeight.toDouble() * .5 * (3.0 / 3),
+                -textHeight.toDouble() * .5 * (4.0 / 3), -textHeight.toDouble() * .5 * (5.0 / 3), -textHeight.toDouble() * .5 * (6.0 / 3)
             )
 
             canvas.drawText(number, (stopX - textWidth / 2 - xPaddings[i]).toFloat(),
