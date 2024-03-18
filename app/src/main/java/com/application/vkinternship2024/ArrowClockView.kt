@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
@@ -32,7 +33,7 @@ class ArrowClockView @JvmOverloads constructor(
 
     private var secondPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
-        strokeWidth = 2f
+        strokeWidth = 4f
         strokeCap = Paint.Cap.ROUND
     }
 
@@ -40,6 +41,19 @@ class ArrowClockView @JvmOverloads constructor(
         color = Color.GRAY
         strokeWidth = 16f
         strokeCap = Paint.Cap.ROUND
+    }
+
+    private var numberPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = 86f
+        color = Color.GRAY
+        typeface = resources.getFont(R.font.madimi_one)
+    }
+
+    // Optional: Define paint for the outer circle
+    private var outerCirclePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.GRAY // Choose color appropriate for your design
+        style = Paint.Style.STROKE
+        strokeWidth = 16f // Adjust the stroke width as needed
     }
 
     private var time = Calendar.getInstance()
@@ -99,7 +113,11 @@ class ArrowClockView @JvmOverloads constructor(
     private fun drawClockFace(canvas: Canvas) {
         val centerX = width / 2f
         val centerY = height / 2f
-        val radius = width.coerceAtMost(height) / 2f * 0.9f // Slightly reduce radius for aesthetics
+        val radius = width.coerceAtMost(height) / 2f * 0.8f // Slightly reduce radius for aesthetics
+        val outerCircleRadius = radius + 20
+
+        // Draw the outer circle
+        canvas.drawCircle(centerX, centerY, outerCircleRadius, outerCirclePaint)
 
         // Draw hour markers and numbers
         for (i in 1..12) {
@@ -110,6 +128,30 @@ class ArrowClockView @JvmOverloads constructor(
             val stopY = (centerY + sin(angle.toDouble()) * (radius - 40)).toFloat()
 
             canvas.drawLine(startX, startY, stopX, stopY, divisionPaint)
+            canvas.drawLine(startX, startY, stopX, stopY, divisionPaint)
+
+            val number = i.toString()
+            val textWidth = numberPaint.measureText(number)
+            val textHeight = numberPaint.descent() - numberPaint.ascent()
+
+            val xPaddings = listOf<Double>(
+                -1.0,
+                textWidth.toDouble() * .5 * (3 / 3), textWidth.toDouble() * .5 * (5 / 3), textWidth.toDouble() * .5 * (6 / 3),
+                textWidth.toDouble() * .5 * (5 / 3), textWidth.toDouble() * .5 * (3 / 3), 0.0,
+                -textWidth.toDouble() * .5 * (3 / 3), -textWidth.toDouble() * .5 * (5 / 3), -textWidth.toDouble() * .5 * (6 / 3),
+                -textWidth.toDouble() * .5 * (5 / 3), -textWidth.toDouble() * .5 * (3 / 3), 0.0
+            )
+
+            val yPaddings = listOf<Double>(
+                -1.0,
+                -textHeight.toDouble() * .5 * (8 / 3), -textHeight.toDouble() * .5 * (7 / 3), -textHeight.toDouble() * .5 * (3 / 3),
+                -textHeight.toDouble() * .5 * (2 / 3), -textHeight.toDouble() * .5 * (1 / 3), 0.0,
+                -textHeight.toDouble() * .5 * (1 / 3), -textHeight.toDouble() * .5 * (2 / 3), -textHeight.toDouble() * .5 * (3 / 3),
+                -textHeight.toDouble() * .5 * (7 / 3), -textHeight.toDouble() * .5 * (8 / 3), -textHeight.toDouble() * .5 * (6 / 3)
+            )
+
+            canvas.drawText(number, (stopX - textWidth / 2 - xPaddings[i]).toFloat(),
+                (stopY - textHeight / 4 - yPaddings[i]).toFloat(), numberPaint)
         }
 
         // Optionally, draw minute markers
