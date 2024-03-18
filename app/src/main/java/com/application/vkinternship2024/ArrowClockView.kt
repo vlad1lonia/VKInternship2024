@@ -43,6 +43,12 @@ class ArrowClockView @JvmOverloads constructor(
         strokeCap = Paint.Cap.ROUND
     }
 
+    private var specialNumberPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = 108f
+        color = Color.GRAY
+        typeface = resources.getFont(R.font.madimi_one)
+    }
+
     private var numberPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 86f
         color = Color.GRAY
@@ -135,27 +141,32 @@ class ArrowClockView @JvmOverloads constructor(
             canvas.drawLine(startX, startY, stopX, stopY, divisionPaint)
 
             val number = i.toString()
-            val textWidth = numberPaint.measureText(number)
-            val textHeight = numberPaint.descent() - numberPaint.ascent()
+            val textWidth =
+                if (i % 3 == 0) specialNumberPaint.measureText(number).toDouble()
+                else numberPaint.measureText(number).toDouble()
+            val textHeight =
+                if (i % 3 == 0) (specialNumberPaint.descent() - specialNumberPaint.ascent()).toDouble()
+                else (numberPaint.descent() - numberPaint.ascent()).toDouble()
 
             val xPaddings = listOf<Double>(
-                -1.0,
-                textWidth.toDouble() * .5 * (4.0 / 3), textWidth.toDouble() * .5 * (5.0 / 3), textWidth.toDouble() * .5 * (6.0 / 3),
-                textWidth.toDouble() * .5 * (5.0 / 3), textWidth.toDouble() * .5 * (4.0 / 3), 0.0,
-                -textWidth.toDouble() * .5 * (4.0 / 3), -textWidth.toDouble() * .5 * (5.0 / 3), -textWidth.toDouble() * .5 * (6.0 / 3),
-                -textWidth.toDouble() * .5 * (5.0 / 3), -textWidth.toDouble() * .5 * (4.0 / 3), 0.0
+                -1.0, textWidth * .5 * (4.0 / 3), textWidth * .5 * (5.0 / 3),
+                textWidth * .5 * (6.0 / 3), textWidth * .5 * (5.0 / 3),
+                textWidth * .5 * (4.0 / 3), 0.0, -textWidth * .5 * (4.0 / 3),
+                -textWidth * .5 * (5.0 / 3), -textWidth * .5 * (6.0 / 3),
+                -textWidth * .5 * (5.0 / 3), -textWidth * .5 * (4.0 / 3), 0.0
             )
 
             val yPaddings = listOf<Double>(
-                -1.0,
-                -textHeight.toDouble() * .5 * (5.0 / 3), -textHeight.toDouble() * .5 * (4.0 / 3), -textHeight.toDouble() * .5 * (3.0 / 3),
-                -textHeight.toDouble() * .5 * (2.0 / 3), -textHeight.toDouble() * .5 * (1.0 / 3), 0.0,
-                -textHeight.toDouble() * .5 * (1.0 / 3), -textHeight.toDouble() * .5 * (2.0 / 3), -textHeight.toDouble() * .5 * (3.0 / 3),
-                -textHeight.toDouble() * .5 * (4.0 / 3), -textHeight.toDouble() * .5 * (5.0 / 3), -textHeight.toDouble() * .5 * (6.0 / 3)
+                -1.0, -textHeight * .5 * (5.0 / 3), -textHeight * .5 * (4.0 / 3),
+                -textHeight * .5 * (3.0 / 3), -textHeight * .5 * (2.0 / 3),
+                -textHeight * .5 * (1.0 / 3), 0.0, -textHeight * .5 * (1.0 / 3),
+                -textHeight * .5 * (2.0 / 3), -textHeight * .5 * (3.0 / 3),
+                -textHeight * .5 * (4.0 / 3), -textHeight * .5 * (5.0 / 3),
+                -textHeight * .5 * (6.0 / 3)
             )
 
             canvas.drawText(number, (stopX - textWidth / 2 - xPaddings[i]).toFloat(),
-                (stopY - textHeight / 4 - yPaddings[i]).toFloat(), numberPaint)
+                (stopY - textHeight / 4 - yPaddings[i]).toFloat(), if (i % 3 == 0) specialNumberPaint else numberPaint)
         }
 
         // Optionally, draw minute markers
