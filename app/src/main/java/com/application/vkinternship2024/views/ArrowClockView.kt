@@ -1,14 +1,14 @@
-package com.application.vkinternship2024
+package com.application.vkinternship2024.views
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
+import com.application.vkinternship2024.R
 import java.util.Calendar
 import kotlin.math.cos
 import kotlin.math.sin
@@ -148,7 +148,7 @@ class ArrowClockView @JvmOverloads constructor(
                 if (i % 3 == 0) (specialNumberPaint.descent() - specialNumberPaint.ascent()).toDouble()
                 else (numberPaint.descent() - numberPaint.ascent()).toDouble()
 
-            val xPaddings = listOf<Double>(
+            val xPaddings = listOf(
                 -1.0, textWidth * .5 * (4.0 / 3), textWidth * .5 * (5.0 / 3),
                 textWidth * .5 * (6.0 / 3), textWidth * .5 * (5.0 / 3),
                 textWidth * .5 * (4.0 / 3), 0.0, -textWidth * .5 * (4.0 / 3),
@@ -156,7 +156,7 @@ class ArrowClockView @JvmOverloads constructor(
                 -textWidth * .5 * (5.0 / 3), -textWidth * .5 * (4.0 / 3), 0.0
             )
 
-            val yPaddings = listOf<Double>(
+            val yPaddings = listOf(
                 -1.0, -textHeight * .5 * (5.0 / 3), -textHeight * .5 * (4.0 / 3),
                 -textHeight * .5 * (3.0 / 3), -textHeight * .5 * (2.0 / 3),
                 -textHeight * .5 * (1.0 / 3), 0.0, -textHeight * .5 * (1.0 / 3),
@@ -166,7 +166,8 @@ class ArrowClockView @JvmOverloads constructor(
             )
 
             canvas.drawText(number, (stopX - textWidth / 2 - xPaddings[i]).toFloat(),
-                (stopY - textHeight / 4 - yPaddings[i]).toFloat(), if (i % 3 == 0) specialNumberPaint else numberPaint)
+                (stopY - textHeight / 4 - yPaddings[i]).toFloat(),
+                if (i % 3 == 0) specialNumberPaint else numberPaint)
         }
 
         // Optionally, draw minute markers
