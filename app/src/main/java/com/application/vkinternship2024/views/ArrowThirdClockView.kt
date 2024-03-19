@@ -114,12 +114,12 @@ class ArrowThirdClockView @JvmOverloads constructor(
         val secondAngle = Math.toRadians(((second + millisecond.toDouble() / 1000) * 6 - 90)).toFloat()
         val secondHandLength = radius
         canvas.drawLine(centerX, centerY,
-            (centerX + secondHandLength * cos(secondAngle)).toFloat(),
-            (centerY + secondHandLength * sin(secondAngle)).toFloat(),
+            (centerX + secondHandLength * cos(secondAngle)),
+            (centerY + secondHandLength * sin(secondAngle)),
             secondPaint
         )
 
-        val centerDotRadius = 6
+        val centerDotRadius = 10
         canvas.drawCircle(centerX, centerY, centerDotRadius.toFloat(), outerCirclePaint)
     }
 
