@@ -12,7 +12,7 @@
     android:layout_marginBottom="?attr/actionBarSize">
 
     <com.application.vkinternship2024.views.ArrowThirdClockView
-        android:id="@+id/arrowClockView"
+        android:id="@+id/thirdArrowClockView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

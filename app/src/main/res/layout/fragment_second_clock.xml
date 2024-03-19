@@ -11,7 +11,7 @@
     android:layout_marginBottom="?attr/actionBarSize">
 
     <com.application.vkinternship2024.views.ArrowSecondClockView
-        android:id="@+id/arrowClockView"
+        android:id="@+id/secondArrowClockView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
