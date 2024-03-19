@@ -13,7 +13,7 @@ import java.util.Calendar
 import kotlin.math.cos
 import kotlin.math.sin
 
-class ArrowClockView @JvmOverloads constructor(
+class ArrowThirdClockView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -32,34 +32,37 @@ class ArrowClockView @JvmOverloads constructor(
     }
 
     private var secondPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.RED
+        color = Color.BLUE
         strokeWidth = 4f
         strokeCap = Paint.Cap.ROUND
     }
 
     private var divisionPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.GRAY
-        strokeWidth = 16f
+        strokeWidth = 12f
         strokeCap = Paint.Cap.ROUND
     }
 
     private var specialNumberPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 108f
+        textSize = 86f
         color = Color.GRAY
-        typeface = resources.getFont(R.font.madimi_one)
+        typeface = resources.getFont(R.font.gabriela_regular)
     }
 
     private var numberPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 86f
+        textSize = 68f
         color = Color.GRAY
-        typeface = resources.getFont(R.font.madimi_one)
+        typeface = resources.getFont(R.font.gabriela_regular)
     }
 
-    // Optional: Define paint for the outer circle
     private var outerCirclePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.GRAY // Choose color appropriate for your design
+        color = Color.GRAY
         style = Paint.Style.STROKE
-        strokeWidth = 16f // Adjust the stroke width as needed
+    }
+
+    private var circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
+        style = Paint.Style.FILL
     }
 
     private var time = Calendar.getInstance()
@@ -91,7 +94,7 @@ class ArrowClockView @JvmOverloads constructor(
 
         // Draw hour hand
         val hourAngle = Math.toRadians((hour + minute / 60.0) * 30 - 90).toFloat()
-        val hourHandLength = radius * 0.56
+        val hourHandLength = radius * 0.62
         canvas.drawLine(centerX, centerY,
             (centerX + hourHandLength * cos(hourAngle.toDouble()).toFloat()).toFloat(),
             (centerY + hourHandLength * sin(hourAngle.toDouble()).toFloat()).toFloat(),
@@ -100,7 +103,7 @@ class ArrowClockView @JvmOverloads constructor(
 
         // Draw minute hand
         val minuteAngle = Math.toRadians((minute + second / 60.0) * 6 - 90).toFloat()
-        val minuteHandLength = radius * 0.72
+        val minuteHandLength = radius * 0.82
         canvas.drawLine(centerX, centerY,
             (centerX + minuteHandLength * cos(minuteAngle.toDouble()).toFloat()).toFloat(),
             (centerY + minuteHandLength * sin(minuteAngle.toDouble()).toFloat()).toFloat(),
@@ -109,7 +112,7 @@ class ArrowClockView @JvmOverloads constructor(
 
         // Draw second hand
         val secondAngle = Math.toRadians(((second + millisecond.toDouble() / 1000) * 6 - 90)).toFloat()
-        val secondHandLength = radius * 0.92
+        val secondHandLength = radius
         canvas.drawLine(centerX, centerY,
             (centerX + secondHandLength * cos(secondAngle)).toFloat(),
             (centerY + secondHandLength * sin(secondAngle)).toFloat(),
@@ -127,7 +130,7 @@ class ArrowClockView @JvmOverloads constructor(
         val outerCircleRadius = radius + 20
 
         // Draw the outer circle
-        canvas.drawCircle(centerX, centerY, outerCircleRadius, outerCirclePaint)
+        canvas.drawCircle(centerX, centerY, outerCircleRadius, circlePaint)
 
         // Draw hour markers and numbers
         for (i in 1..12) {
@@ -170,7 +173,6 @@ class ArrowClockView @JvmOverloads constructor(
                 if (i % 3 == 0) specialNumberPaint else numberPaint)
         }
 
-        // Optionally, draw minute markers
         for (i in 1..60) {
             if (i % 5 != 0) { // Skip hour markers positions
                 val angle = Math.toRadians((i * 6 - 90).toDouble()).toFloat()

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/firstClockFragment"
+        android:icon="@drawable/baseline_access_time_16"
+        android:title="@string/_1st_clock_title" />
+
+    <item
+        android:id="@id/secondClockFragment"
+        android:icon="@drawable/baseline_access_time_16"
+        android:title="@string/_2nd_clock_title" />
+
+    <item
+        android:id="@id/thirdClockFragment"
+        android:icon="@drawable/baseline_access_time_16"
+        android:title="@string/_3rd_clock_title" />
+
+</menu>

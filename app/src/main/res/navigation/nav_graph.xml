@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/firstClockFragment">
+
+    <fragment
+        android:id="@+id/firstClockFragment"
+        android:name="com.application.vkinternship2024.navigation.FirstClockFragment"
+        android:label="@string/_1st_clock_title"
+        tools:layout="@layout/fragment_first_clock" />
+
+    <fragment
+        android:id="@+id/secondClockFragment"
+        android:name="com.application.vkinternship2024.navigation.SecondClockFragment"
+        android:label="@string/_2nd_clock_title"
+        tools:layout="@layout/fragment_second_clock" />
+
+    <fragment
+        android:id="@+id/thirdClockFragment"
+        android:name="com.application.vkinternship2024.navigation.ThirdClockFragment"
+        android:label="@string/_3rd_clock_title"
+        tools:layout="@layout/fragment_third_clock" />
+</navigation>

@@ -1,7 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VK Internship 2024</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="_1st_clock_title">1st Clock</string>
     <string name="_2nd_clock_title">2nd Clock</string>
     <string name="_3rd_clock_title">3rd Clock</string>
